@@ -12,6 +12,24 @@ Engineered for mid-to-large scale organizations, this module manages the complet
 
 ---
 
+## 📸 UI Preview
+
+Screenshots of the demo UI in [`docs/demo/index.html`](docs/demo/index.html) (open the file in a browser to try it). It is a small stand-alone mock with **fictional sample data**; it shows the screens and workflow, not a live system.
+
+### 5-step appraisal wizard with live weight check (must total 100%)
+![Appraisal wizard](docs/screenshots/01_appraisal_wizard.png)
+
+### Core competencies self-rating
+![Competencies step](docs/screenshots/02_competencies_step.png)
+
+### Approval dashboard (supervisor / HR view)
+![Approval dashboard](docs/screenshots/03_approval_dashboard.png)
+
+### Competency master
+![Competency master](docs/screenshots/04_competency_master.png)
+
+---
+
 ## 🌟 Key Highlights & Engineering Features
 
 - **Dynamic 5-Stage Appraisal Wizard:** Intuitive React wizard with active tab progress tracking, form state preservation across steps, and automated draft saving.
@@ -103,7 +121,9 @@ kpi-acr-module/
 │   └── 04_kpi_menu_registration_guide.sql# RBAC menu integration script
 │
 └── docs/
-    └── SYSTEM_SPECIFICATION.md           # Domain specification & scoring model
+    ├── SYSTEM_SPECIFICATION.md           # Domain specification & scoring model
+    ├── demo/index.html                   # Stand-alone UI demo (fictional data)
+    └── screenshots/                      # Screenshots of the demo
 ```
 
 ---

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KPI / ACR Demo</title>
+<style>
+  :root{--bg:#f4f6f9;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--accent:#0f766e;--accent-soft:#ccfbf1;--warn:#b45309;--warn-soft:#fef3c7;--ok:#166534;--ok-soft:#dcfce7;--bad:#b91c1c}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 "Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:#0b3b38;color:#fff;padding:14px 28px;display:flex;align-items:center;gap:28px}
+  header b{font-size:16px;letter-spacing:.2px}
+  nav a{color:#b6e3dd;text-decoration:none;padding:6px 12px;border-radius:6px;margin-right:4px;font-weight:500}
+  nav a.on{background:#14524e;color:#fff}
+  .demo-tag{margin-left:auto;font-size:12px;background:#14524e;padding:3px 10px;border-radius:99px;color:#b6e3dd}
+  main{max-width:1100px;margin:24px auto;padding:0 20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+  h2{margin:0 0 4px;font-size:18px} .sub{color:var(--muted);margin:0 0 16px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+  select,input{border:1px solid var(--line);border-radius:6px;padding:7px 10px;font:inherit;background:#fff;min-width:150px}
+  button{border:0;border-radius:6px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--accent);color:#fff}
+  button.ghost{background:#eef2f7;color:var(--ink)}
+  table{width:100%;border-collapse:collapse}
+  th{background:var(--accent);color:#fff;text-align:left;padding:9px 12px;font-weight:600}
+  th:first-child{border-radius:8px 0 0 0} th:last-child{border-radius:0 8px 0 0}
+  td{padding:9px 12px;border-bottom:1px solid var(--line)}
+  tr:hover td{background:#fafcfc}
+  .pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600}
+  .draft{background:var(--warn-soft);color:var(--warn)} .done{background:var(--ok-soft);color:var(--ok)} .sub-st{background:#dbeafe;color:#1d4ed8}
+  .steps{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap}
+  .step{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 16px;cursor:pointer;font-weight:500}
+  .step.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .weight{display:flex;align-items:center;gap:10px;margin-top:12px;font-weight:600}
+  .bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--accent);transition:width .2s}
+  .bar.bad i{background:var(--bad)}
+  .total{font-variant-numeric:tabular-nums}
+  .foot{display:flex;justify-content:space-between;margin-top:16px}
+  .modal{max-width:520px}
+  .hide{display:none}
+  textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px;font:inherit;min-height:70px}
+</style>
+</head>
+<body>
+<header>
+  <b>Enterprise HRM &middot; KPI / ACR</b>
+  <nav>
+    <a href="#form" id="n-form">Appraisal Form</a>
+    <a href="#approvals" id="n-approvals">Approvals</a>
+    <a href="#competency" id="n-competency">Competency Master</a>
+  </nav>
+  <span class="demo-tag">Demo &middot; fictional data</span>
+</header>
+<main>
+
+<!-- APPRAISAL FORM -->
+<section id="v-form" class="hide">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div><h2>Annual Performance Appraisal (ACR) &mdash; Sample Employee 01</h2>
+      <p class="sub" style="margin:0">Cycle ACR 2026 &middot; Appraiser: Sample Manager 01</p></div>
+      <span class="pill draft">Status: DRAFT</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="steps" id="steps"></div>
+
+    <div id="s0">
+      <h2>Key Activities</h2><p class="sub">Weights must total 100%.</p>
+      <table><thead><tr><th>#</th><th>Activity</th><th style="width:110px">Weight %</th><th style="width:160px">Self-rating</th></tr></thead>
+      <tbody id="acts"></tbody></table>
+      <div class="weight"><span>Total weight</span><div class="bar" id="wbar"><i></i></div><span class="total" id="wtot">0%</span></div>
+    </div>
+
+    <div id="s1" class="hide">
+      <h2>Core Competencies &amp; Behavioral Assessment</h2><p class="sub">Rate each competency from 1 (needs improvement) to 5 (outstanding).</p>
+      <table><thead><tr><th>#</th><th>Competency</th><th>Description</th><th style="width:160px">Self-rating</th></tr></thead>
+      <tbody id="comps"></tbody></table>
+    </div>
+
+    <div id="s2" class="hide">
+      <h2>Development Needs</h2><p class="sub">Training or support that would improve next year's performance.</p>
+      <textarea>Advanced SQL performance tuning; leadership workshop.</textarea>
+    </div>
+
+    <div id="s3" class="hide">
+      <h2>Next Year Targets</h2><p class="sub">Measurable goals for the next cycle.</p>
+      <textarea>Reduce report generation time by 30%. Mentor two junior developers.</textarea>
+    </div>
+
+    <div class="foot">
+      <button class="ghost" id="prev">&larr; Previous</button>
+      <span><button class="ghost" id="draft">Save draft</button> <button id="next">Next &rarr;</button></span>
+    </div>
+  </div>
+</section>
+
+<!-- APPROVALS -->
+<section id="v-approvals" class="hide">
+  <div class="card">
+    <div class="row">
+      <div><label>Cycle</label><select><option>ACR 2026</option></select></div>
+      <div><label>Review scope</label><select><option>All employees (HR view)</option></select></div>
+      <div><label>Status</label><select><option>All status</option></select></div>
+      <div><label>Search</label><input placeholder="Employee no / name"></div>
+      <button>Search</button><button class="ghost">Clear</button>
+    </div>
+  </div>
+  <div class="card">
+    <table><thead><tr><th>#</th><th>Employee</th><th>Supervisor</th><th>Submitted</th><th>Status</th><th>Supervisor assessment</th><th>Final decision</th><th>Score</th></tr></thead>
+    <tbody id="appr"></tbody></table>
+    <p class="sub" style="margin:12px 0 0">Total records: 5</p>
+  </div>
+</section>
+
+<!-- COMPETENCY -->
+<section id="v-competency" class="hide">
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><div><h2>Competency Master</h2><p class="sub" style="margin:0">Behavioral and functional competencies used in appraisals.</p></div><button>+ New competency</button></div>
+  </div>
+  <div class="row" style="align-items:flex-start;gap:16px">
+    <div class="card" style="flex:1.4;min-width:340px">
+      <table><thead><tr><th>#</th><th>Competency</th><th>Description</th><th>Status</th></tr></thead><tbody id="cm"></tbody></table>
+    </div>
+    <div class="card modal" style="flex:1;min-width:300px">
+      <h2>New Competency</h2><p class="sub">Add a competency to the master list.</p>
+      <label>Competency *</label><input style="width:100%" placeholder="e.g. Communication, Problem Solving">
+      <label style="margin-top:10px">Status</label><select style="width:100%"><option>Active</option></select>
+      <label style="margin-top:10px">Description</label><textarea placeholder="Description of the competency"></textarea>
+      <div class="foot" style="justify-content:flex-end"><button>Submit</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+const ACT=[["Deliver assigned module releases on schedule",40],["Resolve production support tickets within SLA",25],["Code review and quality standards",20],["Documentation and knowledge sharing",15]];
+const COMP=[["Communication","Clear, timely and respectful communication"],["Problem Solving","Analyses issues and proposes practical fixes"],["Teamwork","Collaborates and supports colleagues"],["Ownership","Takes responsibility for outcomes"]];
+const APPR=[["Sample Employee 01 (101)","Sample Manager 01 (201)","2026-10-05 09:12","Finalized","Very good","Promotion","4.3"],
+["Sample Employee 02 (102)","Sample Manager 01 (201)","2026-10-06 11:40","Finalized","Satisfactory","Retain","3.6"],
+["Sample Employee 03 (103)","Sample Manager 02 (202)","2026-10-07 14:05","Submitted","Pending","Pending","-"],
+["Sample Employee 04 (104)","Sample Manager 02 (202)","2026-10-08 10:20","Submitted","Pending","Pending","-"],
+["Sample Employee 05 (105)","Sample Manager 01 (201)","","Draft","-","-","-"]];
+const rate=(v)=>`<select>${["Select rating",1,2,3,4,5].map((x,i)=>`<option ${x===v?"selected":""}>${x}</option>`).join("")}</select>`;
+const el=(id)=>document.getElementById(id);
+el("acts").innerHTML=ACT.map((a,i)=>`<tr><td>${i+1}</td><td>${a[0]}</td><td><input class="w" type="number" value="${a[1]}" style="min-width:0;width:80px"></td><td>${rate(i<3?4:"Select rating")}</td></tr>`).join("");
+el("comps").innerHTML=COMP.map((c,i)=>`<tr><td>${i+1}</td><td><b>${c[0]}</b></td><td style="color:var(--muted)">${c[1]}</td><td>${rate(i===0?4:"Select rating")}</td></tr>`).join("");
+const cls={Finalized:"done",Submitted:"sub-st",Draft:"draft"};
+el("appr").innerHTML=APPR.map((r,i)=>`<tr><td>${i+1}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||"-"}</td><td><span class="pill ${cls[r[3]]}">${r[3].toUpperCase()}</span></td><td>${r[4]}</td><td>${r[5]}</td><td><b>${r[6]}</b></td></tr>`).join("");
+el("cm").innerHTML=[...COMP,["Leadership","Guides and motivates others"],["Adaptability","Adjusts to change"]].map((c,i)=>`<tr><td>${i+1}</td><td><b>${c[0]}</b></td><td style="color:var(--muted)">${c[1]}</td><td><span class="pill done">ACTIVE</span></td></tr>`).join("");
+
+function weights(){const t=[...document.querySelectorAll(".w")].reduce((s,x)=>s+(+x.value||0),0);
+  el("wtot").textContent=t+"%";el("wbar").firstElementChild.style.width=Math.min(t,100)+"%";el("wbar").classList.toggle("bad",t!==100);}
+document.querySelectorAll(".w").forEach(x=>x.addEventListener("input",weights));weights();
+
+const STEPS=["Key Activities","Core Competencies","Development Needs","Next Year Targets"];let step=0;
+function showStep(n){step=Math.max(0,Math.min(3,n));
+  el("steps").innerHTML=STEPS.map((s,i)=>`<span class="step ${i===step?"on":""}" data-i="${i}">${s}</span>`).join("");
+  STEPS.forEach((_,i)=>el("s"+i).classList.toggle("hide",i!==step));
+  el("steps").querySelectorAll(".step").forEach(s=>s.onclick=()=>showStep(+s.dataset.i));}
+el("prev").onclick=()=>showStep(step-1);el("next").onclick=()=>showStep(step+1);
+function route(){const h=(location.hash||"#form").slice(1);
+  ["form","approvals","competency"].forEach(k=>{el("v-"+k).classList.toggle("hide",k!==h);el("n-"+k).classList.toggle("on",k===h);});
+  const q=new URLSearchParams(location.search).get("step");if(q&&h==="form")showStep(+q);}
+addEventListener("hashchange",route);showStep(0);route();
+</script>
+</body>
+</html>
