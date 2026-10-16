@@ -1,0 +1,16 @@
+# OS & IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*~
+.vscode/
+.idea/
+
+# Build & Logs
+bin/
+obj/
+node_modules/
+dist/
+build/
+*.log
